@@ -1,2 +1,7 @@
 # 프로젝트 제외 경로
 /out/
+/.idea/.gitignore
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/CodingTest.iml
