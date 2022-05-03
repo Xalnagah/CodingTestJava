@@ -1,71 +1,92 @@
 package me.programmers.first;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Quest11 {
 
-    List<List<String>> positionList;
+//    List<List<String>> positionList;
 
     int answer;
-    String[] members = {"A", "C", "F", "J", "M", "N", "R", "T"};
+    String[] members;
 
-    String[] chkData;
+    String[] data;
 
     public int solution(int n, String[] data) {
-        answer = 0;
-        chkData = data;
+        this.members = new String[]{"A", "C", "F", "J", "M", "N", "R", "T"};
+        this.data = data;
+        this.answer = 0;
 
-        int memCnt = members.length;
-        positionList = new ArrayList<>();
-
-//        makePosition(members, 0);
-//        makePosition2(members);
-
-//        answer = positionList.stream()
-//                .filter(postion -> chkPosition(postion, data))
-//                .collect(Collectors.toList())
-//                .size();
+        makePosition(new String[0], members, 0, members.length);
 
         return answer;
     }
 
-    public void makePosition(String[] members, int depth) {
-
-        int len = members.length;
-        if (depth == len) {
-            if (chkPosition(members, chkData)) {
+    public void makePosition(String[] position, String[] members, int depth, int len) {
+//        depth = depth+1;
+        // members = {"A", "C", "F", "J", "M", "N", "R", "T"};
+//        List<String> memberList = new ArrayList<>();
+//        memberList.add(members.get(depth-1));
+        if (position.length == len) {
+            if (!chkPosition(position)) {
+//                Arrays.asList(position).forEach(m -> {
+//                    System.out.print(m + ", ");
+//                });
+//                System.out.println();
                 answer++;
             }
             return;
         }
 
-        for (int i=depth; i<len; i++) {
-            swap(members, depth, i);
-            makePosition(members, depth + 1);
-            swap(members, depth, i);
+
+
+//        String[] result = new String[position.length + 1];
+//        for (int p=0; p<position.length; p++) {
+//            result[p] = position[p];
+//        }
+
+        List<String> result = new ArrayList<>();
+        for (int p=0; p<position.length; p++) {
+            result.add(position[p]);
         }
+
+        for (int i=0; i<members.length; i++) {
+            result.add(members[i]);
+            List<String> tmpMbrList = new ArrayList<>();
+            for (int k=0; k< members.length; k++) {
+                if (!result.contains(members[k])) {
+                    tmpMbrList.add(members[k]);
+                }
+            }
+            result.forEach(m -> {
+                System.out.print(m + ", ");
+            });
+            System.out.print(" = " + tmpMbrList.size()+ " => " );
+            tmpMbrList.forEach(m -> {
+                System.out.print(m + ", ");
+            });
+            System.out.println();
+
+//            String[] rsltParams = result.toArray(String[]::new);
+//            String[] mbrParams = tmpMbrList.toArray(String[]::new);
+            makePosition(result.toArray(String[]::new), tmpMbrList.toArray(String[]::new), depth, len);
+        }
+
+
+
+
+
+
     }
 
 
-    public void makePosition2(String[] members, int d, int len) {
 
-    }
-
-    public void swap(String[] members, int a, int b) {
-        String tmp = members[a];
-        members[a] = members[b];
-        members[b] = tmp;
-    }
-
-    public boolean chkPosition(String[] position, String[] filters) {
+    public boolean chkPosition(String[] position) {
 
         boolean result = false;
 
 //        System.out.println("-------------------------- ");
-        for (String filter : filters) {
+        for (String filter : data) {
             String member = filter.substring(0, 1);
             String target = filter.substring(2, 3);
             String comp = filter.substring(3, 4);
