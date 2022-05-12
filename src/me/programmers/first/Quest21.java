@@ -26,7 +26,6 @@ public class Quest21 {
         for (int j=0; j<resultArr.length; j++) {
             int tmp = queue.poll();
             resultArr[j] = tmp;
-            System.out.print(tmp + ", ");
         }
 
         return resultArr[targetIdx];
