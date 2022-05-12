@@ -1,9 +1,25 @@
 package me.programmers.first;
 
+import java.util.*;
+
 public class Quest20 {
 
     public int solution(int[] scoville, int K) {
         int answer = 0;
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        for (int s : scoville) {
+            queue.add(s);
+        }
+
+        while (queue.peek() < K) {
+            if (queue.size()<2) return -1;
+            int a = queue.poll();
+            int b = queue.poll();
+
+            int scvl = a + (b * 2);
+            queue.offer(scvl);
+            answer++;
+        }
         return answer;
     }
 
